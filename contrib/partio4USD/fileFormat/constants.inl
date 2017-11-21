@@ -19,8 +19,6 @@ bool _isBuiltinAttribute(const std::string& attrName) {
     };
     return _findInVec(_positionNames) ||
            _findInVec(_velocityNames) ||
-           _findInVec(_radiusNames) ||
-           _findInVec(_scaleNames) ||
            _findInVec(_idNames);
 }
 
