@@ -1,7 +1,13 @@
 set(PLUGIN_NAME partioVisualizerWriter)
 
-include_directories($ENV{USD_ROOT}/third_party/maya/include)
-link_directories($ENV{USD_ROOT}/third_party/maya/lib)
+if(DEFINED ENV{USD_MAYA_ROOT})
+    set(USD_MAYA_ROOT $ENV{USD_MAYA_ROOT})
+else()
+    set(USD_MAYA_ROOT $ENV{USD_ROOT})
+endif()
+
+include_directories(${USD_MAYA_ROOT}/third_party/maya/include)
+link_directories(${USD_MAYA_ROOT}/third_party/maya/lib)
 
 include_directories(${MAYA_INCLUDE_DIRS})
 link_directories(${MAYA_LIBRARY_DIR})
