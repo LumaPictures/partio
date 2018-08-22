@@ -4,6 +4,7 @@
 #include <pxr/usd/usdGeom/points.h>
 
 #include <usdMaya/primWriterRegistry.h>
+#include <usdMaya/transformWriter.h>
 
 #include <Partio.h>
 
@@ -47,12 +48,12 @@ namespace {
         return "";
     }
 
-    class partioVisualizerWriter : public MayaTransformWriter {
+    class partioVisualizerWriter : public UsdMayaTransformWriter {
     public:
-        partioVisualizerWriter(const MDagPath & iDag, const SdfPath& uPath, bool instanceSource, usdWriteJobCtx& jobCtx) :
-            MayaTransformWriter(iDag, uPath, instanceSource, jobCtx), mIsValid(false) {
-            mUsdPrim = UsdGeomPoints::Define(getUsdStage(), getUsdPath()).GetPrim();
-            TF_AXIOM(mUsdPrim);
+        partioVisualizerWriter(const MDagPath & iDag, const SdfPath& uPath, UsdMayaWriteJobContext& jobCtx) :
+            UsdMayaTransformWriter(iDag, uPath, jobCtx), mIsValid(false) {
+            _usdPrim = UsdGeomPoints::Define(GetUsdStage(), GetUsdPath()).GetPrim();
+            TF_AXIOM(_usdPrim);
 
             static std::once_flag once_flag;
             std::call_once(once_flag, []() {
@@ -101,8 +102,8 @@ namespace {
                                          << match[3].str();
                 mFormatString = ss.str();
                 mIsValid = true;
-                mUsdPrim.GetReferences().AddReference(SdfReference(manifestPath));
-                UsdClipsAPI clips(mUsdPrim);
+                _usdPrim.GetReferences().AddReference(SdfReference(manifestPath));
+                UsdClipsAPI clips(_usdPrim);
                 clips.SetClipManifestAssetPath(SdfAssetPath(manifestPath));
                 clips.SetClipPrimPath("/points");
                 // We usually use %0xd where x is the number of digits, so the actual length
@@ -120,13 +121,13 @@ namespace {
             }
         }
 
-        void write(const UsdTimeCode& usdTime) override {
+        void Write(const UsdTimeCode& usdTime) override {
             if (usdTime.IsDefault() || !mIsValid) { return; }
 
-            UsdGeomPoints points(mUsdPrim);
-            writeTransformAttrs(usdTime, points);
+            UsdGeomPoints points(_usdPrim);
+            UsdMayaTransformWriter::Write(usdTime);
 
-            MFnDagNode dagNode(getDagPath());
+            MFnDagNode dagNode(GetDagPath());
             const auto frame = dagNode.findPlug("time").asInt();
 
             sprintf(mPathBuffer.data(), mFormatString.c_str(), frame);
@@ -149,7 +150,7 @@ namespace {
 
         ~partioVisualizerWriter() {
             if (mIsValid) {
-                UsdClipsAPI clips(mUsdPrim);
+                UsdClipsAPI clips(_usdPrim);
                 clips.SetClipTimes(mClipTimes);
                 clips.SetClipActive(mClipActive);
                 clips.SetClipAssetPaths(mClipAssetPaths);
@@ -167,11 +168,11 @@ namespace {
     using partioVisualizerWriterPtr = std::shared_ptr<partioVisualizerWriter>;
 }
 
-TF_REGISTRY_FUNCTION_WITH_TAG(PxrUsdMayaPrimWriterRegistry, partioVisualizerWriter) {
+TF_REGISTRY_FUNCTION_WITH_TAG(UsdMayaPrimWriterRegistry, partioVisualizerWriter) {
 
-    PxrUsdMayaPrimWriterRegistry::Register("partioVisualizer",
+    UsdMayaPrimWriterRegistry::Register("partioVisualizer",
                  [](const MDagPath& iDag,
-                    const SdfPath& uPath, bool instanceSource,
-                    usdWriteJobCtx& jobCtx) -> MayaPrimWriterPtr { return std::make_shared<partioVisualizerWriter>(
-                    iDag, uPath, instanceSource, jobCtx); });
+                    const SdfPath& uPath,
+                    UsdMayaWriteJobContext& jobCtx) -> UsdMayaPrimWriterSharedPtr { return std::make_shared<partioVisualizerWriter>(
+                    iDag, uPath, jobCtx); });
 }
