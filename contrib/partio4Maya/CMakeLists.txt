@@ -14,6 +14,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
 if (UNIX AND NOT APPLE)
     add_definitions(-DLINUX)
     add_definitions(-Werror)
+    # Maya 2019 has essentially deprecated MPxSurfaceShapeUI, even though a
+    # creator for them is still a required part of the registerShape call!
+    add_definitions(-Wno-error=deprecated-declarations)
     add_definitions(-std=c++11)
 endif ()
 if (APPLE )

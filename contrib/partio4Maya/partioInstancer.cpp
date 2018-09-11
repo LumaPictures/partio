@@ -534,7 +534,7 @@ MStatus partioInstancer::initialize()
     aIndexFrom = tAttr.create("indexFrom", "ifrm", MFnStringData::kString);
     nAttr.setKeyable(true);
 
-    aInstanceData = tAttr.create("instanceData", "instd", MFnArrayAttrsData::kDynArrayAttrs, &stat);
+    aInstanceData = tAttr.create("instanceData", "instd", MFnArrayAttrsData::kDynArrayAttrs, MObject::kNullObj, &stat);
     tAttr.setKeyable(false);
     tAttr.setStorable(false);
     tAttr.setHidden(false);
