@@ -112,30 +112,30 @@ namespace {
         bool init(AtNode* node)
         {
             // check for values on node
-            getParam(arg_file, node, "arg_file");
+            getParam(arg_file, node, "file");
             getParam(arg_overrideRadiusPP, node, "overrideRadiusPP");
-            getParam(arg_radius, node, "arg_radius");
-            getParam(arg_maxParticleRadius, node, "arg_maxParticleRadius");
-            getParam(arg_minParticleRadius, node, "arg_minParticleRadius");
-            getParam(arg_radiusMult, node, "arg_radiusMult");
-            getParam(arg_renderType, node, "arg_renderType");
-            getParam(arg_motionBlurMult, node, "arg_motionBlurMult");
-            getParam(arg_velFrom, node, "arg_velFrom");
-            getParam(arg_accFrom, node, "arg_accFrom");
-            getParam(arg_rgbFrom, node, "arg_rgbFrom");
-            getParam(arg_incandFrom, node, "arg_incandFrom");
-            getParam(arg_opacFrom, node, "arg_opacFrom");
-            getParam(arg_radFrom, node, "arg_radFrom");
-            getParam(arg_defaultColor, node, "arg_defaultColor");
-            getParam(arg_defaultOpac, node, "arg_defaultOpac");
-            getParam(arg_filterSmallParticles, node, "arg_filterSmallParticles");
+            getParam(arg_radius, node, "radius");
+            getParam(arg_maxParticleRadius, node, "maxParticleRadius");
+            getParam(arg_minParticleRadius, node, "minParticleRadius");
+            getParam(arg_radiusMult, node, "radiusMult");
+            getParam(arg_renderType, node, "renderType");
+            getParam(arg_motionBlurMult, node, "motionBlurMult");
+            getParam(arg_velFrom, node, "velFrom");
+            getParam(arg_accFrom, node, "accFrom");
+            getParam(arg_rgbFrom, node, "rgbFrom");
+            getParam(arg_incandFrom, node, "incandFrom");
+            getParam(arg_opacFrom, node, "opacFrom");
+            getParam(arg_radFrom, node, "radFrom");
+            getParam(arg_defaultColor, node, "defaultColor");
+            getParam(arg_defaultOpac, node, "defaultOpac");
+            getParam(arg_filterSmallParticles, node, "filterSmallParticles");
             getParam(global_motionBlurSteps, node, "global_motionBlurSteps");
             // no need to generate more than one steps
             // when no acceleration data is used for interpolating the data
             getParam(global_fps, node, "global_fps");
             getParam(global_motionByFrame, node, "global_motionByFrame");
-            getParam(arg_stepSize, node, "arg_stepSize");
-            getParam(arg_extraPPAttrs, node, "arg_extraPPAttrs");
+            getParam(arg_stepSize, node, "stepSize");
+            getParam(arg_extraPPAttrs, node, "extraPPAttrs");
 
             AiMsgInfo("[partioGenerator] loading cache  %s", arg_file.c_str());
 
@@ -553,28 +553,28 @@ namespace {
 
 node_parameters
 {
-    AiParameterStr("arg_file", "");
+    AiParameterStr("file", "");
     AiParameterBool("overrideRadiusPP", false);
-    AiParameterFlt("arg_radius", 0.01f);
-    AiParameterFlt("arg_maxParticleRadius", 1000000.0f);
-    AiParameterFlt("arg_minParticleRadius", 0.0f);
-    AiParameterFlt("arg_radiusMult", 1.0f);
-    AiParameterInt("arg_renderType", 0);
-    AiParameterFlt("arg_motionBlurMult", 1.0f);
-    AiParameterStr("arg_velFrom", "");
-    AiParameterStr("arg_accFrom", "");
-    AiParameterStr("arg_rgbFrom", "");
-    AiParameterStr("arg_incandFrom", "");
-    AiParameterStr("arg_opacFrom", "");
-    AiParameterStr("arg_radFrom", "");
-    AiParameterStr("arg_defaultColor", "");
-    AiParameterStr("arg_defaultOpac", "");
-    AiParameterFlt("arg_filterSmallParticles", 8.0f);
+    AiParameterFlt("radius", 0.01f);
+    AiParameterFlt("maxParticleRadius", 1000000.0f);
+    AiParameterFlt("minParticleRadius", 0.0f);
+    AiParameterFlt("radiusMult", 1.0f);
+    AiParameterInt("renderType", 0);
+    AiParameterFlt("motionBlurMult", 1.0f);
+    AiParameterStr("velFrom", "");
+    AiParameterStr("accFrom", "");
+    AiParameterStr("rgbFrom", "");
+    AiParameterStr("incandFrom", "");
+    AiParameterStr("opacFrom", "");
+    AiParameterStr("radFrom", "");
+    AiParameterStr("defaultColor", "");
+    AiParameterStr("defaultOpac", "");
+    AiParameterFlt("filterSmallParticles", 8.0f);
     AiParameterInt("global_motionBlurSteps", 1);
     AiParameterFlt("global_fps", 24.0f);
     AiParameterFlt("global_motionByFrame", 0.5f);
-    AiParameterFlt("arg_stepSize", 0.0f);
-    AiParameterStr("arg_extraPPAttrs", "");
+    AiParameterFlt("stepSize", 0.0f);
+    AiParameterStr("extraPPAttrs", "");
 
 }
 

@@ -2,6 +2,12 @@ import pymel.core as pm
 import mtoa.ui.ae.templates as templates
 from mtoa.ui.ae.templates import AttributeTemplate, registerTranslatorUI
 
+try:
+    from arnold import AiGetVersion
+    isArnold5 = int(AiGetVersion()[0]) > 4
+except:
+    isArnold5 = False
+
 class PartioVisualizerTemplate(templates.ShapeTranslatorTemplate):
     def setup(self):
         self.commonShapeAttributes()
@@ -17,8 +23,9 @@ class PartioVisualizerTemplate(templates.ShapeTranslatorTemplate):
         self.addSeparator()
         self.addControl("aiMotionBlurMultiplier",label="Motion Blur Mult")
         self.addSeparator()
-        self.addControl("aiOverrideProcedural", label="Override render procedural" )
-        self.addControl("aiTranslator", label= "Override MTOA Translator")
+        if not isArnold5:
+            self.addControl("aiOverrideProcedural", label="Override render procedural" )
+            self.addControl("aiTranslator", label= "Override MTOA Translator")
         self.beginLayout(label='Debug', collapse=True)
         self.addControl("aiMinParticleRadius", label="Clamp Min Radius")
         self.addControl("aiFilterSmallParticles", label="Filter Small Particles")

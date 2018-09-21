@@ -923,8 +923,8 @@ MStatus partioEmitter::createPPAttr(MFnParticleSystem& part, MString attrName, M
             if (!part.isPerParticleIntAttribute((attrName + "0")) && !part.isPerParticleIntAttribute(attrName))
             {
                 initialStateAttrObj = initialStateAttr.create((attrName + "0"), (shortName + "0"), MFnData::kIntArray,
-                                                              &stat1);
-                attrObj = ppAttr.create((attrName), (shortName), MFnData::kIntArray, &stat2);
+                                                              MObject::kNullObj, &stat1);
+                attrObj = ppAttr.create((attrName), (shortName), MFnData::kIntArray, MObject::kNullObj, &stat2);
             }
         }
             break;
@@ -933,8 +933,8 @@ MStatus partioEmitter::createPPAttr(MFnParticleSystem& part, MString attrName, M
             if (!part.isPerParticleDoubleAttribute((attrName + "0")) && !part.isPerParticleDoubleAttribute(attrName))
             {
                 initialStateAttrObj = initialStateAttr.create((attrName + "0"), (shortName + "0"),
-                                                              MFnData::kDoubleArray, &stat1);
-                attrObj = ppAttr.create((attrName), (shortName), MFnData::kDoubleArray, &stat2);
+                                                              MFnData::kDoubleArray, MObject::kNullObj, &stat1);
+                attrObj = ppAttr.create((attrName), (shortName), MFnData::kDoubleArray, MObject::kNullObj, &stat2);
             }
         }
             break;
@@ -943,8 +943,8 @@ MStatus partioEmitter::createPPAttr(MFnParticleSystem& part, MString attrName, M
             if (!part.isPerParticleVectorAttribute((attrName + "0")) && !part.isPerParticleVectorAttribute(attrName))
             {
                 initialStateAttrObj = initialStateAttr.create((attrName + "0"), (shortName + "0"),
-                                                              MFnData::kVectorArray, &stat1);
-                attrObj = ppAttr.create((attrName), (shortName), MFnData::kVectorArray, &stat2);
+                                                              MFnData::kVectorArray, MObject::kNullObj, &stat1);
+                attrObj = ppAttr.create((attrName), (shortName), MFnData::kVectorArray, MObject::kNullObj, &stat2);
             }
         }
             break;
@@ -957,12 +957,12 @@ MStatus partioEmitter::createPPAttr(MFnParticleSystem& part, MString attrName, M
         initialStateAttr.setStorable(true);
         ppAttr.setStorable(true);
         ppAttr.setKeyable(true);
-        stat1 = part.addAttribute(initialStateAttrObj, MFnDependencyNode::kLocalDynamicAttr);
+        stat1 = part.addAttribute(initialStateAttrObj);
         if (!stat1)
         {
             MGlobal::displayWarning("PartioEmitter->error:  was unable to create " + attrName + "0" + " attr");
         }
-        stat2 = part.addAttribute(attrObj, MFnDependencyNode::kLocalDynamicAttr);
+        stat2 = part.addAttribute(attrObj);
         if (!stat2)
         {
             MGlobal::displayWarning("PartioEmitter->error:  was unable to create " + (attrName) + " attr");

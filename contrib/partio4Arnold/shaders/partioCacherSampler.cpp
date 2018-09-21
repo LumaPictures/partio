@@ -13,16 +13,16 @@
 
 /// NOTES:
 /*
- * THIS SHADER originally was written to save out a partio cache based on  surface color and any  AOVs  that were being 
+ * THIS SHADER originally was written to save out a partio cache based on  surface color and any  AOVs  that were being
  * defined.  That would be the "write mode"  which is currently not what I'm doing or using  it for,
  * a lot of the AOV stuff is currently commented out, and it has gotten a bit sloppy while I'm using it to dev some FX, sorry.
- * 
+ *
  * Mainly right now  I'm writing out deformation data into a millions of points  bhclassic cache from  houdini
- * that contains a color channel which is  the vector point deform position 
- * This is using the "read mode"  functionality  per sample to pull in the  partio cache,  sort it into a kdtree, and do lookups 
- * for the  displacement value for each sample point. 
- * 
- * 
+ * that contains a color channel which is  the vector point deform position
+ * This is using the "read mode"  functionality  per sample to pull in the  partio cache,  sort it into a kdtree, and do lookups
+ * for the  displacement value for each sample point.
+ *
+ *
  * Pal's Notes.
  * * I removed the AOV code for now, since the uses were disabled anyway, so we can have a clearer working shader.
  *   Feel free to go ahead and add back the code, following the approaches found in the current code.
@@ -85,6 +85,7 @@ namespace {
         p_negateX,
         p_negateY,
         p_negateZ,
+		p_offset,
         p_error_color,
         p_error_disp,
         p_diag,
@@ -346,6 +347,7 @@ node_parameters
     AiParameterBOOL("negate_X", false);
     AiParameterBOOL("negate_Y", false);
     AiParameterBOOL("negate_Z", false);
+	AiParameterRGB("offset", 0,0,0);
     AiParameterRGB("diagnostic_color", 1, 1, 0);
     AiParameterVec("diagnostic_disp", 0, 1, 0);
     AiParameterBOOL("show_diagnostic", false);
@@ -507,6 +509,12 @@ shader_evaluate
         if (counter > 1) {
             finalValue *= 1.0f / static_cast<float>(counter);
         }
+		// add offset
+		AtVector offset = AiShaderEvalParamVec(p_offset);
+		finalValue.x +=  offset.x;
+		finalValue.y +=  offset.y;
+		finalValue.z +=  offset.z;
+
         sg->out.VEC = finalValue;
         /// out.RGB and out.VEC are pointing to the same memory, as both are part of the same union.
         /// There is no need to split the logic.

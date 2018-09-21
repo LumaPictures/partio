@@ -280,15 +280,6 @@ foreach(_maya_lib
 endforeach()
 
 
-find_path(MAYA_USER_DIR
-    NAMES ${MAYA_VERSION}-x64 ${MAYA_VERSION}
-    PATHS
-        $ENV{HOME}/Library/Preferences/Autodesk/maya  # osx
-        $ENV{USERPROFILE}/Documents/maya              # windows
-        $ENV{HOME}/maya                               # linux
-    DOC "Maya user home directory"
-    NO_SYSTEM_ENVIRONMENT_PATH)
-
 # if (Maya_FOUND)
 #     if (NOT Maya_FIND_QUIETLY)
 #         message(STATUS "Maya version: ${Maya_MAJOR_VERSION}.${Maya_MINOR_VERSION}.${Maya_SUBMINOR_VERSION}")
@@ -316,8 +307,7 @@ find_path(MAYA_USER_DIR
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Maya DEFAULT_MSG
     MAYA_LIBRARIES MAYA_EXECUTABLE MAYA_INCLUDE_DIRS
-    MAYA_LIBRARY_DIRS MAYA_VERSION MAYA_PLUGIN_SUFFIX
-    MAYA_USER_DIR)
+    MAYA_LIBRARY_DIRS MAYA_VERSION MAYA_PLUGIN_SUFFIX)
 
 #
 # Copyright 2012, Chad Dombrova

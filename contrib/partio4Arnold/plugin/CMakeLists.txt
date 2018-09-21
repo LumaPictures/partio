@@ -134,6 +134,9 @@ set(MAYA_LIBS
 
 add_library(${PLUGIN_NAME} SHARED ${partio4ArnoldCPP})
 set_target_properties(${PLUGIN_NAME} PROPERTIES PREFIX "")
+if (ARNOLD_VERSION_ARCH_NUM VERSION_GREATER "4")
+    target_compile_options(${PLUGIN_NAME} PRIVATE "-DARNOLD5")
+endif ()
 
 target_link_libraries(${PLUGIN_NAME}
                       ${MAYA_LIBS}

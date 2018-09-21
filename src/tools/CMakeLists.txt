@@ -33,13 +33,13 @@
 
 include_directories(
    ${CMAKE_SOURCE_DIR}/src/lib
-   ${GLUT_INCLUDE_PATH}
 )
 
+find_package(GLUT)
 IF(GLUT_FOUND AND OPENGL_FOUND)
-    INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
     ADD_EXECUTABLE(partview partview.cpp)
     target_link_libraries(partview ${PARTIO_LIBRARIES} ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
+    target_include_directories(partview PRIVATE ${GLUT_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
 	IF (${LOCAL_INSTALL})
 		INSTALL(TARGETS partview RUNTIME DESTINATION bin/${PARTIO_BUILD_PLATFORM})
 	ELSE(${LOCAL_INSTALL})

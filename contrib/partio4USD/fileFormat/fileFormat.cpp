@@ -132,11 +132,10 @@ bool UsdPartIOFileFormat::Read(const SdfLayerBasePtr& layerBase,
 
     ScopeExit scopeExit([&layerBaseHandle, &layer]() { layerBaseHandle->TransferContent(layer); });
 
+    // Zero pointcounts are perfectly normal from applications like Houdini,
+    // in this case we have to stop issuing warnings, and setup the headers
+    // so stitch clip and similar utils work better.
     const auto pointCount = points->numParticles();
-    if (pointCount < 1) {
-        TF_WARN("[partIO] Particle count is zero in %s", resolvedPath.c_str());
-        return true;
-    }
 
     // We are trying to guess the frame of the cache here.
     // Also, regex in gcc 4.8.x is unreliable! So we have to use boost here.

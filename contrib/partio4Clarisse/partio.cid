@@ -1,0 +1,15 @@
+class "GeometryCsdkPartio" "GeometryParticle" {
+    #version 0.9
+    category "/Geometry/Csdk"
+    doc "Partio pointcloud"
+    attribute_group "geometry" {
+        filename_open "cache_path" {
+            value ""
+            doc "Location of the partio cache."
+        }
+        string "exported_properties" {
+            value ""
+            doc "List of exported properties, separated by spaces."
+        }
+    }
+}
